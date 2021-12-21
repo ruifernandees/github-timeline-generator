@@ -20,7 +20,7 @@ const Home: React.FC = () => {
         />
       </div>
       <button 
-        className="h-10 px-6 font-semibold rounded-md bg-orange-500 text-gray-700"
+        className="h-10 px-6 font-semibold rounded-md bg-orange-500 text-white"
       >
         Gerar Timeline
       </button>
