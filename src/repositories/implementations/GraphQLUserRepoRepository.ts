@@ -1,27 +1,31 @@
 import { GithubRepository } from '../../entities/GithubRepository';
 import { GithubUser } from '../../entities/GithubUser';
 import { graphqlApi } from '../../services/graphqlApi';
-import { GetAllRepositoriesByUsernameDTO } from '../../useCases/GetAllRepositoriesByUsernameUseCase/GetAllRepositoriesByUsernameDTO';
+import { GetRepositoriesByUsernameDTO } from '../../useCases/GetRepositoriesByUsernameUseCase/GetRepositoriesByUsernameDTO';
 import { IUserRepoRepository } from '../IUserRepoRepository';
 
 export class GraphQLUserRepoRepository implements IUserRepoRepository {
-  async getAllRepositoriesByUsername(username: string): Promise<GetAllRepositoriesByUsernameDTO> {
+  async getRepositoriesByUsername(username: string, amount: number, isAsc: boolean): Promise<GetRepositoriesByUsernameDTO> {
     try {
       type tResponse = {
         user: {
           name: string,
           avatarUrl: string,
+          login: string,
           repositories: {
             nodes: GithubRepository[]
           }
         }
       };
+      const maxRepositories = 50;
+      if (amount > maxRepositories) throw new Error(`Cannot support more than ${maxRepositories} repositories`);
       const response = await graphqlApi(`
         {
           user(login: "${username}") {
             avatarUrl
             name
-            repositories(first: 50, orderBy: {field: CREATED_AT, direction: ASC}, isFork: false) {
+            login
+            repositories(first: ${amount}, orderBy: {field: CREATED_AT, direction: ${isAsc ? 'ASC' : 'DESC'}}, isFork: false) {
               nodes {
                 name
                 url
@@ -34,7 +38,7 @@ export class GraphQLUserRepoRepository implements IUserRepoRepository {
       `);
       const { user } = response as tResponse;
       return {
-        user: new GithubUser(user.name, user.avatarUrl),
+        user: new GithubUser(user.name, user.avatarUrl, user.login),
         repositories: user.repositories.nodes
       }
     } catch (error) {

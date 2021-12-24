@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import GithubIcon from '../../assets/icons/GithubIcon';
-import { getAllRepositoriesByUsernameUseCase } from '../../useCases/GetAllRepositoriesByUsernameUseCase';
+import { getRepositoriesByUsernameUseCase } from '../../useCases/GetRepositoriesByUsernameUseCase';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   function handleError(errorMessage: string) {
     toast.error(errorMessage, {
@@ -29,9 +32,12 @@ const Home: React.FC = () => {
     }
     try {
       setIsLoading(true);
-      const response = await getAllRepositoriesByUsernameUseCase.execute(username);
+      const response = await getRepositoriesByUsernameUseCase.execute(username);
       setIsLoading(false);
       handleSuccess(response.user.name);
+      navigate('/timeline', {
+        state: response
+      })
     } catch (error) {
       console.log(error); 
       let errorMessage = 'Unexpected error!';
@@ -45,8 +51,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
-      <ToastContainer />
-      <h1 className="text-center text-blue text-2xl">
+
+      <h1 className="text-center text-blue text-2xl font-black">
         Github Timeline Generator
       </h1>
       <div className="group relative">
@@ -57,7 +63,7 @@ const Home: React.FC = () => {
         />
         <input 
           type="text" 
-          className="focus:ring-2 focus:ring-gray-400 focus:outline-none my-10 text-gray-900 leading-6 placeholder-gray-400 rounded-md py-2 pl-10 ring-1 ring-gray-200 shadow-sm"
+          className="focus:ring-2 focus:ring-blue-500 focus:outline-none my-10 text-gray-900 leading-6 placeholder-gray-400 rounded-md py-2 pl-10 ring-1 ring-gray-500 shadow-sm"
           placeholder='Username'
           value={username}
           onChange={(event) => setUsername(event.target.value)}
