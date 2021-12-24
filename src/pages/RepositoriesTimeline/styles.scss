@@ -1,0 +1,86 @@
+.timeline-screen-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .timeline-screen-header {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .user-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 700px;
+      
+      &.left {
+        flex-direction: row-reverse;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      &.right {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .complement {
+        width: 280px;
+        height: 160px;
+        margin: 10px;
+        opacity: 0;
+      }
+
+      .repository-container {
+        width: 280px;
+        height: 160px;
+        background-color: white;
+        cursor: pointer;
+
+        border-radius: 8px;
+        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4);
+
+        padding: 10px;
+        margin: 10px;
+
+        transition: 0.2s all ease-in;
+
+        &:hover {
+          filter: brightness(90%)
+        }
+
+        .repository-name {
+          width: 80%;
+          font-weight: 600;
+        }
+
+        .repository-hr {
+          height: 1.5px;
+          background-color: #AAA;
+          margin: 5px 0;
+        }
+
+        .repository-description {
+          margin-top: 5px;
+          word-wrap: break-word;
+        }
+      }
+    }
+  }
+}
