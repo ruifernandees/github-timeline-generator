@@ -22,7 +22,7 @@
   .timeline {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     
     .timeline-item {
       display: flex;
@@ -45,6 +45,14 @@
         height: 160px;
         margin: 10px;
         opacity: 0;
+
+        @media (max-width: 680px) {
+          display: none;
+        }
+      }
+
+      @media(max-width: 680px) {
+        max-width: 95%;
       }
 
       .repository-container {
@@ -63,6 +71,11 @@
 
         &:hover {
           filter: brightness(90%)
+        }
+
+        @media(max-width: 680px) {
+          z-index: 2;
+          position: absolute;
         }
 
         .repository-name {

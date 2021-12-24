@@ -200,6 +200,7 @@ const RepositoriesTimeline: React.FC = () => {
                   className="repository-container" 
                   href={repository.url}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   <p className="repository-name">{repository.name}</p>
                   <hr className='repository-hr' />
