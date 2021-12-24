@@ -1,13 +1,13 @@
 import { IUserRepoRepository } from "../../repositories/IUserRepoRepository";
-import { GetAllRepositoriesByUsernameDTO } from "./GetAllRepositoriesByUsernameDTO";
+import { GetRepositoriesByUsernameDTO } from "./GetRepositoriesByUsernameDTO";
 
-export class GetAllRepositoriesByUsernameUseCase {
+export class GetRepositoriesByUsernameUseCase {
   constructor(
     public userRepoRepository: IUserRepoRepository
   ) {}
   
   async execute(username: string, amount = 50, isAsc = true) {
-    const response = await this.userRepoRepository.getAllRepositoriesByUsername(username, amount, isAsc);
+    const response = await this.userRepoRepository.getRepositoriesByUsername(username, amount, isAsc);
     return response;
   }
 }

@@ -1,11 +1,11 @@
 import { GithubRepository } from '../../entities/GithubRepository';
 import { GithubUser } from '../../entities/GithubUser';
 import { graphqlApi } from '../../services/graphqlApi';
-import { GetAllRepositoriesByUsernameDTO } from '../../useCases/GetAllRepositoriesByUsernameUseCase/GetAllRepositoriesByUsernameDTO';
+import { GetRepositoriesByUsernameDTO } from '../../useCases/GetRepositoriesByUsernameUseCase/GetRepositoriesByUsernameDTO';
 import { IUserRepoRepository } from '../IUserRepoRepository';
 
 export class GraphQLUserRepoRepository implements IUserRepoRepository {
-  async getAllRepositoriesByUsername(username: string, amount: number, isAsc: boolean): Promise<GetAllRepositoriesByUsernameDTO> {
+  async getRepositoriesByUsername(username: string, amount: number, isAsc: boolean): Promise<GetRepositoriesByUsernameDTO> {
     try {
       type tResponse = {
         user: {

@@ -1,5 +1,5 @@
-import { GetAllRepositoriesByUsernameDTO } from "../useCases/GetAllRepositoriesByUsernameUseCase/GetAllRepositoriesByUsernameDTO";
+import { GetRepositoriesByUsernameDTO } from "../useCases/GetRepositoriesByUsernameUseCase/GetRepositoriesByUsernameDTO";
 
 export interface IUserRepoRepository {
-  getAllRepositoriesByUsername(username: string, amount: number, isAsc: boolean): Promise<GetAllRepositoriesByUsernameDTO>
+  getRepositoriesByUsername(username: string, amount: number, isAsc: boolean): Promise<GetRepositoriesByUsernameDTO>
 }

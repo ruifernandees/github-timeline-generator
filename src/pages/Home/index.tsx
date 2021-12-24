@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
 import { toast } from 'react-toastify';
 import GithubIcon from '../../assets/icons/GithubIcon';
-import { getAllRepositoriesByUsernameUseCase } from '../../useCases/GetAllRepositoriesByUsernameUseCase';
+import { getRepositoriesByUsernameUseCase } from '../../useCases/GetRepositoriesByUsernameUseCase';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     }
     try {
       setIsLoading(true);
-      const response = await getAllRepositoriesByUsernameUseCase.execute(username);
+      const response = await getRepositoriesByUsernameUseCase.execute(username);
       setIsLoading(false);
       handleSuccess(response.user.name);
       navigate('/timeline', {

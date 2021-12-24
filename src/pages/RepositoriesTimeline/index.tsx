@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import TimelineFragment from '../../components/TimelineFragment';
 import { GithubData } from '../../entities/GithubData';
+import { getRepositoriesByUsernameUseCase } from '../../useCases/GetRepositoriesByUsernameUseCase';
 
 import './styles.css';
 
 const RepositoriesTimeline: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const githubData = (location.state as GithubData) || null;
 
+  const [isAsc, setIsAsc] = useState(true);
+  const [amount, setAmount] = useState(50);
+  const [isLoading, setIsLoading] = useState(false);
+  const [filteredData, setFilteredData] = useState(githubData);
+
+
   useEffect(() => {
-    if (!githubData) {
+    if (!filteredData) {
       navigate('/');
     }
   }, []);
@@ -35,6 +44,40 @@ const RepositoriesTimeline: React.FC = () => {
     return limitedDescriptionArray.join(" ") + "...";
   }
 
+  function onChangeDirection(event: React.ChangeEvent<HTMLInputElement>) {
+    setIsAsc(event.target.value === 'ASC');
+  }
+
+  function onChangeAmount(event: React.ChangeEvent<HTMLInputElement>) {
+    setAmount(Number(event.target.value));
+  }
+
+  async function handleFilter() {
+    try {
+      setIsLoading(true);
+      const response = await getRepositoriesByUsernameUseCase.execute(githubData.user.username, amount, isAsc);
+      setIsLoading(false);
+      setFilteredData(response);
+    } catch (error) {
+      console.log(error); 
+      let errorMessage = 'Unexpected error!';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      handleError(errorMessage);
+      setIsLoading(false);
+    }
+  }
+
+  function handleError(errorMessage: string) {
+    toast.error(errorMessage, {
+      theme: 'colored'
+    });
+  }
+
+  useEffect(() => console.log(isAsc), [isAsc])
+  useEffect(() => console.log(amount), [amount])
+
   return (
     <div className="timeline-screen-container">
       <header className='timeline-screen-header'>
@@ -43,13 +86,107 @@ const RepositoriesTimeline: React.FC = () => {
           alt={`${githubData.user.name}'s image`}
           className='user-image'
         />
-        <h1 className="text-xl font-semibold">
-          Repository Timeline of {githubData.user.name}
+        <h1 className="text-xl text-center font-black">
+          Repository Timeline of {filteredData.user.name}
         </h1>
       </header>
+      <div className="flex flex-col mb-10 w-250 sm:w-350 justify-center">
+        <div className="flex flex-col">
+          <div 
+            onChange={onChangeDirection}
+            className="flex justify-between items-center flex-col sm:flex-row my-3"
+          >
+            <h1 className="mb-2 sm:mb-0 font-semibold">Order:</h1>
+            <div className='flex'>
+              <div className="mr-4">
+                <input 
+                  type="radio" 
+                  value="ASC" 
+                  id="ASC"
+                  name="direction" 
+                  defaultChecked 
+                  className="mr-1"
+                /> 
+                <label htmlFor="ASC">ASC</label>
+              </div>
+              <div>
+                <input 
+                  type="radio" 
+                  value="DESC" 
+                  id="DESC"
+                  name="direction" 
+                  className="mr-1"
+                /> 
+                <label htmlFor="DESC">DESC</label>
+              </div>
+            </div>
+          </div> 
+          <div 
+            onChange={onChangeAmount}
+            className="flex justify-between items-center flex-col sm:flex-row my-3"
+          >
+            <h1 className="mb-2 sm:mb-0 font-semibold">Number of <br />repositories:</h1>
+            <div className="flex">
+              <div className="mr-3">
+                <input 
+                  type="radio" 
+                  value="1" 
+                  id="amount-1"
+                  name="amount" 
+                  className="mr-1"
+                />
+                <label htmlFor="amount-1">1</label>
+              </div>
+              <div className="mr-3">
+                <input 
+                  type="radio" 
+                  value="10" 
+                  id="amount-10"
+                  name="amount" 
+                  className="mr-1"
+                /> 
+                <label htmlFor="amount-10">10</label>
+              </div>
+              <div className="mr-3">
+                <input 
+                  type="radio" 
+                  value="20" 
+                  id="amount-20"
+                  name="amount" 
+                  className="mr-1"
+                /> 
+                <label htmlFor="amount-20">20</label>
+              </div>
+              <div>
+                <input 
+                  type="radio" 
+                  value="50" 
+                  id="amount-50"
+                  name="amount" 
+                  defaultChecked 
+                  className="mr-1"
+                /> 
+                <label htmlFor="amount-50">50</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="h-10 w-50 px-6 mt-5 flex justify-center items-center font-semibold rounded-md border-2 border-black bg-black hover:bg-white hover:text-black transition-all ease-in text-white"
+          onClick={handleFilter}
+        >
+          {
+            isLoading
+            ?
+            <ReactLoading type="spin" color="white" height={24} width={24} />
+            :
+            <p>Filter</p>
+          }
+        </button>
+      </div>
       <ul className="timeline">
         {
-          githubData.repositories.map((repository, index) => {
+          filteredData.repositories.map((repository, index) => {
             const isLeft = index % 2 !== 0; 
 
             return (
