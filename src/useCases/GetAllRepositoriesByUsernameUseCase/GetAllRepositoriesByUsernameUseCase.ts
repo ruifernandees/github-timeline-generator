@@ -6,8 +6,8 @@ export class GetAllRepositoriesByUsernameUseCase {
     public userRepoRepository: IUserRepoRepository
   ) {}
   
-  async execute(username: string) {
-    const response = await this.userRepoRepository.getAllRepositoriesByUsername(username);
+  async execute(username: string, amount = 50, isAsc = true) {
+    const response = await this.userRepoRepository.getAllRepositoriesByUsername(username, amount, isAsc);
     return response;
   }
 }
