@@ -63,7 +63,7 @@ const Home: React.FC = () => {
         />
         <input 
           type="text" 
-          className="focus:ring-2 focus:ring-gray-400 focus:outline-none my-10 text-gray-900 leading-6 placeholder-gray-400 rounded-md py-2 pl-10 ring-1 ring-gray-200 shadow-sm"
+          className="focus:ring-2 focus:ring-blue-500 focus:outline-none my-10 text-gray-900 leading-6 placeholder-gray-400 rounded-md py-2 pl-10 ring-1 ring-gray-500 shadow-sm"
           placeholder='Username'
           value={username}
           onChange={(event) => setUsername(event.target.value)}
