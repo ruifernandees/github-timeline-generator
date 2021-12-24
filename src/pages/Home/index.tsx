@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import GithubIcon from '../../assets/icons/GithubIcon';
 import { getAllRepositoriesByUsernameUseCase } from '../../useCases/GetAllRepositoriesByUsernameUseCase';
 
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
-      <ToastContainer />
+
       <h1 className="text-center text-blue text-2xl">
         Github Timeline Generator
       </h1>
