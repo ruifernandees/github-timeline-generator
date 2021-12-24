@@ -5,10 +5,13 @@ import GithubIcon from '../../assets/icons/GithubIcon';
 import { getAllRepositoriesByUsernameUseCase } from '../../useCases/GetAllRepositoriesByUsernameUseCase';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   function handleError(errorMessage: string) {
     toast.error(errorMessage, {
@@ -32,6 +35,9 @@ const Home: React.FC = () => {
       const response = await getAllRepositoriesByUsernameUseCase.execute(username);
       setIsLoading(false);
       handleSuccess(response.user.name);
+      navigate('/timeline', {
+        state: response
+      })
     } catch (error) {
       console.log(error); 
       let errorMessage = 'Unexpected error!';
