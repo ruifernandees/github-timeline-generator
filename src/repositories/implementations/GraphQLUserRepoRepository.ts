@@ -38,7 +38,11 @@ export class GraphQLUserRepoRepository implements IUserRepoRepository {
         repositories: user.repositories.nodes
       }
     } catch (error) {
-      throw new Error("Error");
+      const errorObject = JSON.parse(JSON.stringify(error));
+      if (errorObject.errors.length > 0) {
+        throw new Error(errorObject.errors[0].message);
+      }
+      throw new Error("Unexpected error!");
     } 
     
   } 
