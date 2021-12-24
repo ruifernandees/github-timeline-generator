@@ -84,13 +84,13 @@ const RepositoriesTimeline: React.FC = () => {
           alt={`${githubData.user.name}'s image`}
           className='user-image'
         />
-        <section className='flex items-center'>
+        <section className='flex items-center justify-center w-full sm:w-400'>
           <ArrowBackIcon 
             className="cursor-pointer"
             size={24} 
             onClick={() => navigate('/')}
           /> 
-          <h1 className="text-xl text-center font-black ml-2">
+          <h1 className="text-xl font-black ml-2 w-3/4 sm:w-400">
             Repository Timeline of {filteredData.user.name}
           </h1>
         </section>
