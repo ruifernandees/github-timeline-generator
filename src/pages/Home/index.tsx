@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
 
-      <h1 className="text-center text-blue text-2xl">
+      <h1 className="text-center text-blue text-2xl font-black">
         Github Timeline Generator
       </h1>
       <div className="group relative">

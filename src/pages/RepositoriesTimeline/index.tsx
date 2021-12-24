@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ArrowBackIcon from '../../assets/icons/ArrowBackIcon';
 import TimelineFragment from '../../components/TimelineFragment';
 import { GithubData } from '../../entities/GithubData';
 import { getRepositoriesByUsernameUseCase } from '../../useCases/GetRepositoriesByUsernameUseCase';
@@ -75,9 +76,6 @@ const RepositoriesTimeline: React.FC = () => {
     });
   }
 
-  useEffect(() => console.log(isAsc), [isAsc])
-  useEffect(() => console.log(amount), [amount])
-
   return (
     <div className="timeline-screen-container">
       <header className='timeline-screen-header'>
@@ -86,9 +84,16 @@ const RepositoriesTimeline: React.FC = () => {
           alt={`${githubData.user.name}'s image`}
           className='user-image'
         />
-        <h1 className="text-xl text-center font-black">
-          Repository Timeline of {filteredData.user.name}
-        </h1>
+        <section className='flex items-center'>
+          <ArrowBackIcon 
+            className="cursor-pointer"
+            size={24} 
+            onClick={() => navigate('/')}
+          /> 
+          <h1 className="text-xl text-center font-black ml-2">
+            Repository Timeline of {filteredData.user.name}
+          </h1>
+        </section>
       </header>
       <div className="flex flex-col mb-10 w-250 sm:w-350 justify-center">
         <div className="flex flex-col">
