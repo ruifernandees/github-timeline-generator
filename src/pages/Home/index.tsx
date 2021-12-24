@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
+import ReactLoading from 'react-loading';
+import { toast, ToastContainer } from 'react-toastify';
 import GithubIcon from '../../assets/icons/GithubIcon';
 import { getAllRepositoriesByUsernameUseCase } from '../../useCases/GetAllRepositoriesByUsernameUseCase';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 const Home: React.FC = () => {
   const [username, setUsername] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  function handleError(errorMessage: string) {
+    toast.error(errorMessage, {
+      theme: 'colored'
+    });
+  }
+
+  function handleSuccess(name: string) {
+    toast.success(`Hi, ${name}!`, {
+      theme: 'colored'
+    });
+  }
  
   async function handleGetRepositories() {
+    if (username.length === 0) {
+      handleError('Please type the username.');
+      return;
+    }
     try {
+      setIsLoading(true);
       const response = await getAllRepositoriesByUsernameUseCase.execute(username);
-      console.log("*** Home response: ", response);
+      setIsLoading(false);
+      handleSuccess(response.user.name);
     } catch (error) {
       console.log(error); 
+      let errorMessage = 'Unexpected error!';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      handleError(errorMessage);
     }
   }
 
   return (
     <div className="flex flex-col items-center justify-center w-screen h-screen">
+      <ToastContainer />
       <h1 className="text-center text-blue text-2xl">
         Github Timeline Generator
       </h1>
@@ -34,10 +63,16 @@ const Home: React.FC = () => {
         />
       </div>
       <button 
-        className="h-10 px-6 font-semibold rounded-md bg-orange-500 text-white"
+        className="h-10 px-6 font-semibold rounded-md bg-orange-500 hover:bg-orange-600 transition-all ease-in text-white"
         onClick={handleGetRepositories}
       >
-        Gerar Timeline
+        {
+          isLoading
+          ?
+          <ReactLoading type="spin" color="white" height={24} width={24} />
+          :
+          <p>Gerar Timeline</p>
+        }
       </button>
     </div>
   )
