@@ -1,0 +1,25 @@
+.timeline-fragment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 200px;
+
+  .timeline-fragment {
+    background-color: #222;
+    width: 10px;
+    height: 100%;
+    display: flex;
+  }
+
+  .timeline-fragment-circle {
+    width: 25px;
+    height: 25px;
+    margin-right: -17px;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 50px;
+    border-color: #dc2626;
+    border-width: 5px;
+  }
+}
