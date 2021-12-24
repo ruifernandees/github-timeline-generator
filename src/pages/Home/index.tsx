@@ -24,7 +24,7 @@ const Home: React.FC = () => {
  
   async function handleGetRepositories() {
     if (username.length === 0) {
-      handleError('Please type the username.');
+      handleError('Please type a username.');
       return;
     }
     try {
@@ -39,6 +39,7 @@ const Home: React.FC = () => {
         errorMessage = error.message;
       }
       handleError(errorMessage);
+      setIsLoading(false);
     }
   }
 
@@ -71,7 +72,7 @@ const Home: React.FC = () => {
           ?
           <ReactLoading type="spin" color="white" height={24} width={24} />
           :
-          <p>Gerar Timeline</p>
+          <p>Generate Timeline</p>
         }
       </button>
     </div>
