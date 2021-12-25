@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ArrowBackIcon from '../../assets/icons/ArrowBackIcon';
 import TimelineFragment from '../../components/TimelineFragment';
+import TimelineHeader from '../../components/TimelineHeader';
 import { GithubData } from '../../entities/GithubData';
 import { getRepositoriesByUsernameUseCase } from '../../useCases/GetRepositoriesByUsernameUseCase';
 
@@ -79,21 +80,12 @@ const RepositoriesTimeline: React.FC = () => {
   return (
     <div className="timeline-screen-container">
       <header className='timeline-screen-header'>
+        <TimelineHeader name={filteredData.user.name} />
         <img 
-          src={githubData.user.avatarUrl} 
-          alt={`${githubData.user.name}'s image`}
+          src={filteredData.user.avatarUrl} 
+          alt={`${filteredData.user.name}`}
           className='user-image'
         />
-        <section className='flex items-center justify-center w-full sm:w-400'>
-          <ArrowBackIcon 
-            className="cursor-pointer"
-            size={24} 
-            onClick={() => navigate('/')}
-          /> 
-          <h1 className="text-xl font-black ml-2 w-3/4 sm:w-400">
-            Repository Timeline of {filteredData.user.name}
-          </h1>
-        </section>
       </header>
       <div className="flex flex-col mb-10 w-250 sm:w-350 justify-center">
         <div className="flex flex-col">
@@ -183,7 +175,7 @@ const RepositoriesTimeline: React.FC = () => {
           {
             isLoading
             ?
-            <ReactLoading type="spin" color="white" height={24} width={24} />
+            <ReactLoading type="spin" color="#3b82f6" height={24} width={24} />
             :
             <p>Filter</p>
           }
