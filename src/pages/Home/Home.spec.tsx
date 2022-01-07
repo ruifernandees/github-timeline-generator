@@ -1,10 +1,9 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
+import { render, screen } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
+
 import App from "../../App";
-import { MemoryRouter } from "react-router-dom";
-import Home from ".";
 
 test('On render, the username input and the submit button are in the document', () => {
   render(

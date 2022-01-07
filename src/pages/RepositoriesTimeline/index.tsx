@@ -54,10 +54,23 @@ const RepositoriesTimeline: React.FC = () => {
     setAmount(Number(event.target.value));
   }
 
+  function handleSuccess(message: string) {
+    toast.success(message, {
+      theme: 'colored'
+    });
+  }
+
+  function handleError(errorMessage: string) {
+    toast.error(errorMessage, {
+      theme: 'colored'
+    });
+  }
+
   async function handleFilter() {
     try {
       setIsLoading(true);
       const response = await getRepositoriesByUsernameUseCase.execute(githubData.user.username, amount, isAsc);
+      handleSuccess(`Filtered ${amount} repositories in ${isAsc ? 'ascending' : 'descending'} order successfully!`)
       setIsLoading(false);
       setFilteredData(response);
     } catch (error) {
@@ -69,12 +82,6 @@ const RepositoriesTimeline: React.FC = () => {
       handleError(errorMessage);
       setIsLoading(false);
     }
-  }
-
-  function handleError(errorMessage: string) {
-    toast.error(errorMessage, {
-      theme: 'colored'
-    });
   }
 
   return (
