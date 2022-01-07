@@ -1,11 +1,14 @@
 # 🔀 Github Timeline Generator
 
+![App Demonstration](./readme-assets/demonstration.gif)
+
 ## 📝 Description
 Github Timeline Generator is a web app that, given a username, generates a timeline of repositories created by that user. It has filtering features, such as limiting the number of repositories displayed and sorting by date.
 
 ## 💻 Technologies
 - React.js;
 - React Testing Library (Automated Tests);
+- React Toastify
 - Octokit/GraphQL (Github GraphQL API connection);
 - Tailwind CSS;
 - SASS;
