@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ArrowBackIcon from '../../assets/icons/ArrowBackIcon';
 import TimelineFragment from '../../components/TimelineFragment';
 import TimelineHeader from '../../components/TimelineHeader';
 import { GithubData } from '../../entities/GithubData';
@@ -23,7 +22,7 @@ const RepositoriesTimeline: React.FC = () => {
 
 
   useEffect(() => {
-    if (!filteredData) {
+    if (!githubData) {
       navigate('/');
     }
   }, []);
@@ -82,6 +81,10 @@ const RepositoriesTimeline: React.FC = () => {
       handleError(errorMessage);
       setIsLoading(false);
     }
+  }
+
+  if (!githubData) {
+    return <div></div>;
   }
 
   return (
